@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SelectRetreatListItem from './SelectRetreatListItem';
 import AddRetreatModal from './AddRetreatModal';
@@ -6,7 +6,8 @@ import RemoveRetreatModal from './RemoveRetreatModal';
 import {
     Spinner,
     ListGroup,
-    ListGroupItem
+    ListGroupItem,
+    Container
 } from 'reactstrap';
 
 class SelectRetreat extends Component {
@@ -22,19 +23,20 @@ class SelectRetreat extends Component {
     }
 
     render() {
+        const style = { maxWidth: '650px' };
         return (
-            <Fragment>
+            <Container>
                 <h4 className='fade-in text-center open-sans text-muted'>Select a Retreat</h4>
-                <ListGroup className='fade-in col-md-8 offset-md-2 col-sm-12 my-3'>
+                <ListGroup style={style} className='fade-in my-3 mx-auto'>
                     <ListGroupItem className='d-flex justify-content-around'>
                         <AddRetreatModal />
                         <RemoveRetreatModal retreats={this.props.retreats.retreats} />
                     </ListGroupItem>
                 </ListGroup>
-                <ListGroup className='fade-in col-md-8 offset-md-2 col-sm-12 mb-5'>
+                <ListGroup style={style} className='fade-in mb-5 mx-auto'>
                     { this.get_body() }
                 </ListGroup>
-            </Fragment>
+            </Container>
         );
     }
 }

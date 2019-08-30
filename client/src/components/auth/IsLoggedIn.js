@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Navbar from '../navigation/Navbar';
 import { connect } from 'react-redux';
 import { loadRetreats } from '../../actions/retreatActions';
+import { withRouter } from 'react-router-dom';
 import Retreats from '../retreats/Retreats';
-import Home from '../home/Home';
+import AllRoutes from '../navigation/AllRoutes';
 
 class IsLoggedIn extends Component {
     componentDidMount(){
@@ -12,14 +13,14 @@ class IsLoggedIn extends Component {
 
     render() {
         return (
-            <div>
+            <Fragment>
                 <Navbar />
                 { 
                     this.props.retreats.selected_retreat
-                    ? <Home />
+                    ? <AllRoutes />
                     : <Retreats />
                 }
-            </div>
+            </Fragment>
         )
     }
 }
@@ -28,8 +29,7 @@ const mapStateToProps = state => ({
     retreats: state.retreats
 })
 
-export default connect(
-    mapStateToProps, {
-        loadRetreats
-    }
-)(IsLoggedIn);
+export default withRouter(connect(
+    mapStateToProps, 
+    { loadRetreats }
+)(IsLoggedIn));

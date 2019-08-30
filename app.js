@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 app.use('/', require('./routes/user'));
 app.use('/', require('./routes/clients'));
 app.use('/', require('./routes/retreats'));
+app.use('/', require('./routes/groups'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 

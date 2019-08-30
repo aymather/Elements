@@ -41,7 +41,7 @@ class AppNavbar extends Component {
                             <Logout />
                         </NavItem>
                         <NavItem>
-                            <NavLink className='open-sans hover-text-black' onClick={this.onNavigateToRetreatSelector}>Retreats</NavLink>
+                            <NavLink className='open-sans hover-text-black float-right' onClick={this.onNavigateToRetreatSelector}>Retreats</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>

@@ -67,11 +67,11 @@ export const getHeaders = (getState) => {
     const token = getState().user.token;
 
     // Get the current retreat from state
-    //const retreat_id = getState().retreats.selected_retreat ? getState().retreats.selected_retreat.id : null
+    const retreat_id = getState().retreats.selected_retreat ? getState().retreats.selected_retreat.id : null
     
     return {
         "x-auth-token": token,
-        "Content-Type": "application/json"
-        //"retreat_id": retreat_id ? retreat_id : ''
+        "Content-Type": "application/json",
+        "retreat_id": retreat_id ? retreat_id : ''
     };
 }

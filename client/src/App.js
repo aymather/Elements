@@ -1,11 +1,46 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import './App.css';
+import { connect } from 'react-redux';
+import { loadUser } from './actions/authActions';
+import { clearErrors } from './actions/errorActions';
+import IsLoggedIn from './components/auth/IsLoggedIn';
+import NotLoggedIn from './components/auth/NotLoggedIn';
 
-export default class App extends Component {
+class App extends Component {
+
+    componentDidMount(){
+        this.props.clearErrors();
+        this.props.loadUser();
+    }
+
+    static propTypes = {
+        isAuthenticated: PropTypes.bool,
+        error: PropTypes.object.isRequired
+    }
+
     render() {
+        console.log(this.props);
         return (
-            <div>
-                Hello from react component
-            </div>
+            <Fragment>
+                {
+                    this.props.user.isAuthenticated
+                    ? <IsLoggedIn />
+                    : <NotLoggedIn />
+                }
+            </Fragment>
         )
     }
 }
+
+const mapStateToProps = state => ({
+    user: state.user,
+    error: state.error
+})
+
+export default connect(
+    mapStateToProps, {
+        loadUser,
+        clearErrors
+    }
+)(App)

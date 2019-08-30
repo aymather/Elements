@@ -12,6 +12,7 @@ import {
 import ElementsLogo from '../svg/ElementsLogo';
 import Logout from './Logout';
 import { withRouter } from 'react-router-dom';
+import { navigateToRetreatSelector } from '../../actions/retreatActions';
 
 class AppNavbar extends Component {
     
@@ -25,6 +26,10 @@ class AppNavbar extends Component {
         });
     };
 
+    onNavigateToRetreatSelector = () => {
+        this.props.navigateToRetreatSelector(this.props.history);
+    }
+
     render() {
         return (
             <Navbar expand='sm' className='mb-5 py-3 px-5' light>
@@ -36,7 +41,7 @@ class AppNavbar extends Component {
                             <Logout />
                         </NavItem>
                         <NavItem>
-                            <NavLink className='open-sans hover-text-black' href='/retreats'>Retreats</NavLink>
+                            <NavLink className='open-sans hover-text-black' onClick={this.onNavigateToRetreatSelector}>Retreats</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>
@@ -50,5 +55,7 @@ const mapStateToProps = state => ({
 })
 
 export default withRouter(connect(
-    mapStateToProps
+    mapStateToProps, {
+        navigateToRetreatSelector
+    }
 )(AppNavbar));

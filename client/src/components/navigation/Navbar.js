@@ -7,7 +7,6 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    Container,
     NavLink
 } from 'reactstrap';
 import ElementsLogo from '../svg/ElementsLogo';
@@ -26,27 +25,21 @@ class AppNavbar extends Component {
         });
     };
 
-    toRetreats = () => {
-        this.props.history.push('/retreats');
-    }
-
     render() {
         return (
-            <Navbar expand='sm' className='mb-5'>
-                <Container>
-                    <NavbarBrand href='/'><ElementsLogo /></NavbarBrand>
-                    <NavbarToggler onClick={this.toggle} />
-                    <Collapse isOpen={this.state.isOpen} navbar>
-                        <Nav className='ml-auto' navbar>
-                            <NavItem>
-                                <Logout />
-                            </NavItem>
-                            <NavItem>
-                                <NavLink className='open-sans hover-text-muted' onClick={this.toRetreats}>Retreats</NavLink>
-                            </NavItem>
-                        </Nav>
-                    </Collapse>
-                </Container>
+            <Navbar expand='sm' className='mb-5 py-3 px-5' light>
+                <NavbarBrand href='/'><ElementsLogo /></NavbarBrand>
+                <NavbarToggler onClick={this.toggle} />
+                <Collapse isOpen={this.state.isOpen} navbar>
+                    <Nav className='ml-auto' navbar>
+                        <NavItem>
+                            <Logout />
+                        </NavItem>
+                        <NavItem>
+                            <NavLink className='open-sans hover-text-black' href='/retreats'>Retreats</NavLink>
+                        </NavItem>
+                    </Nav>
+                </Collapse>
             </Navbar>
         );
     }

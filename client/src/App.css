@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
+.tableFixHead { overflow-x: scroll; }
+
+/* Just common table stuff. Really. */
+table  { width: 100%; height: auto }
+th, td { padding: 8px 16px; min-width: 150px }
+
 .hover-text-muted {
     transition: all .4s;
 }

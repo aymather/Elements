@@ -19,12 +19,20 @@ router.post('/refresh-token', refreshTokenMiddleware, (req, res) => {
         .then(user => {
             var retreat = user.retreats.id(retreat_id);
             if(!retreat){
-                return res.status(400).json({ msg: "The retreat id you provided is invalid" });
+                return res.status(400).json({
+                    msg: "The retreat id you provided is invalid",
+                    retreat,
+                    retreat_id
+                });
             }
 
             var client = retreat.clients.id(client_id);
             if(!client) {
-                return res.status(400).json({ msg: "The client id you provided is invalid" });
+                return res.status(400).json({
+                    msg: "The client id you provided is invalid",
+                    client,
+                    client_id
+                });
             }
 
             var options = {

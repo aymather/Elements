@@ -9,7 +9,7 @@ const OURA_CLIENT_SECRET = process.env.OURA_CLIENT_SECRET;
 
 router.post('/refresh-token', refreshTokenMiddleware, (req, res) => {
 
-    const { retreat_id, client_id, refresh_token } = JSON.parse(req.body);
+    const { retreat_id, client_id, refresh_token } = req.body;
 
     if(!retreat_id || !client_id || !refresh_token) {
         return res.status(400).json({ msg: "Please provide client and retreat id with refresh token." });

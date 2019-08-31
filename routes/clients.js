@@ -341,4 +341,9 @@ router.post('/update-client-profile', authMiddleware, retreatMiddleware, (req, r
         })
 })
 
+
+router.get('/upload-file', (req, res) => {
+    res.json({ msg: "Success!" });
+})
+
 module.exports = router;

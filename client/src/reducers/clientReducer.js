@@ -9,7 +9,9 @@ import {
     CLIENT_OURA_FAIL,
     CLIENT_PROFILE_UPDATING,
     CLIENT_PROFILE_UPDATED,
-    UPDATE_PROFILE_FAIL
+    UPDATE_PROFILE_FAIL,
+    REMOVE_CLIENT_FILE,
+    REMOVE_FILE_FAIL
 } from '../actions/types';
 
 const initialState = {
@@ -128,6 +130,20 @@ export default function(state = initialState, action){
                     return client;
                 })
             }
+        case REMOVE_CLIENT_FILE:
+            return {
+                ...state,
+                clients: state.clients.map(client => {
+                    if(client.id === action.payload.client_id){
+                        return {
+                            ...client,
+                            files: client.files.filter(file => file._id !== action.payload.file_id)
+                        }
+                    }
+                    return client;
+                })
+            }
+        case REMOVE_FILE_FAIL:
         default:
             return state;
     }

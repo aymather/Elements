@@ -11,7 +11,9 @@ import {
     CLIENT_OURA_FAIL,
     CLIENT_PROFILE_UPDATING,
     UPDATE_PROFILE_FAIL,
-    CLIENT_PROFILE_UPDATED
+    CLIENT_PROFILE_UPDATED,
+    REMOVE_FILE_FAIL,
+    REMOVE_CLIENT_FILE
 } from './types';
 import { returnErrors } from './errorActions';
 
@@ -158,4 +160,29 @@ export const updateClientProfile = (data) => (dispatch, getState) => {
                 dispatch({ type: UPDATE_PROFILE_FAIL, payload: data.client_id });
             })
     })
+}
+
+
+export const removeFile = (file_id, client_id) => (dispatch, getState) => {
+    const options = {
+        method: 'POST',
+        url: '/remove-file',
+        headers: getHeaders(getState),
+        data: {
+            file_id,
+            client_id
+        }
+    }
+
+    axios(options)
+        .then(res => {
+            dispatch({
+                type: REMOVE_CLIENT_FILE,
+                payload: res.data
+            })
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status));
+            dispatch({ type: REMOVE_FILE_FAIL });
+        })
 }

@@ -11,7 +11,9 @@ import {
 } from '../../../../actions/clientActions';
 import validator from 'email-validator';
 import Alerts from '../../../partials/Alerts';
+import FileBrowserModal from '../modals/FileBrowserModal';
 import MacrosPieChart from '../../../charts/MacrosPieChart';
+import axios from 'axios';
 import {
     Col,
     Nav,
@@ -25,7 +27,8 @@ import {
     Label,
     Container,
     Input,
-    Button
+    Button,
+    CustomInput
 } from 'reactstrap';
 
 class UserProfileBody extends Component {
@@ -34,6 +37,9 @@ class UserProfileBody extends Component {
         activeTab: '1',
         msg: null,
         visible: true,
+        file: null,
+        filename: null,
+        uploadState: false,
         age: moment().diff(moment(this.props.client.birthday).format('YYYY-MM-DD'), 'years'),
         medications: this.props.client.medications,
         gender: this.props.client.gender,
@@ -120,6 +126,42 @@ class UserProfileBody extends Component {
         return parseFloat(input.toString().replace(/,/g, ''));
     }
 
+    fileChangeHandler = e => {
+        if(e.target.files.length > 0){
+            this.setState({
+                file: e.target.files[0],
+                filename: e.target.files[0].name
+            }, () => {
+                const data = new FormData();
+                data.append('file', this.state.file);
+
+                const options = {
+                    method: 'POST',
+                    url: '/upload-file',
+                    headers: {
+                        retreat_id: this.props.retreats.selected_retreat.id,
+                        client_id: this.props.client.id,
+                        'content-type': 'multipart/form-data'
+                    },
+                    data
+                }
+
+                axios(options)
+                    .then(res => {
+                        if(res.status === 200){
+                            this.setState({ uploadState: 200 })
+                        } else {
+                            this.setState({ uploadState: 500 })
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.setState({ uploadState: 500 })
+                    })
+                });
+        }
+    }
+
     save = () => {
         // Get items from state
         var {
@@ -184,9 +226,18 @@ class UserProfileBody extends Component {
         return <Alerts color={color} msg={this.state.msg} />
     }
 
+    getUploadStateAlerts = () => {
+        if(this.state.uploadState === 200){
+            return <Alerts color='success' msg='Success!' />
+        } else if (this.state.uploadState === 500) {
+            return <Alerts color='danger' msg='Error' />
+        }
+    }
+
     render() {
         const label = { width: '60px' };
         const mdLabel = { width: '130px' };
+        
         return (
             <Container>
                 <Row>
@@ -385,7 +436,13 @@ class UserProfileBody extends Component {
                                                     <Input type='text' onChange={this.onChange} name='email' className='ml-1 text-muted' placeholder={this.props.client.email} />
                                                 </Col>
                                             </FormGroup>
-                                            <FormGroup row className='my-4 d-flex justify-content-between'>
+                                            <FormGroup row>
+                                                <Label>File</Label>
+                                                <div className='w-100'>{ this.getUploadStateAlerts() }</div>
+                                                <CustomInput type="file" label={this.state.filename ? this.state.filename : 'Upload a file'} onChange={this.fileChangeHandler} name="file" />
+                                                <FileBrowserModal client_id={this.props.client.id} />
+                                            </FormGroup>
+                                            <FormGroup row className='my-3 d-flex justify-content-between'>
                                                 <Label style={label} className='my-auto small text-dark-blue font-weight-bold'>{'ÖURA:'}</Label>
                                                 <Button outline 
                                                         className='mr-3 open-sans my-4 d-block custom-outline-btn' 

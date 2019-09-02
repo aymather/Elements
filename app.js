@@ -24,14 +24,6 @@ mongoose.connect(db, {useNewUrlParser: true})
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Debugging
-function logPath(req, res, next){
-    console.log(req.path);
-    next();
-}
-
-app.use(logPath);
-
 // Cors
 app.use(cors());
 
@@ -50,10 +42,7 @@ if(process.env.NODE_ENV === 'production'){
     app.use(express.static('client/build'));
 
     app.get('*', (req, res) => {
-        console.log('Production request made');
-        console.log(req.path);
-        res.sendFile('./public/html/Success.html');
-        //res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
     })
 }
 

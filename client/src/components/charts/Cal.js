@@ -18,10 +18,6 @@ class Cal extends Component {
         });
     }
 
-    // componentWillUpdate({ day }){
-    //     this.setState({ day });
-    // }
-
     render() {
         return (
             <Fragment>
@@ -32,8 +28,7 @@ class Cal extends Component {
                     <ModalBody className='d-flex justify-content-center'>
                         <InfiniteCalendar 
                                 onSelect={this.props.changeDate} 
-                                width={400} 
-                                height={600} 
+                                height={500}
                                 selected={this.state.day}
                             />
                     </ModalBody>

@@ -107,10 +107,10 @@ class OuraScores extends Component {
         } else {
             return (
                 <ActivityViewModal name={this.props.client.firstname + ' ' + this.props.client.lastname}
-                                           activity={ this.state.activity }
-                                           className='mt-2'
-                                           formatted_date={this.get_date()}
-                                        />
+                                    activity={ this.state.activity }
+                                    className='mt-2'
+                                    formatted_date={this.get_date()}
+                                />
             )
         }
     }

@@ -35,7 +35,8 @@ class ReadinessViewModal extends Component {
     }
 
     getSleepRelatedGraphs = () => {
-        if(this.props.sleep){
+        console.log(this.props);
+        if(this.props.sleep && this.props.sleep !== 'x'){
             var rmssd_array = this.props.sleep.rmssd_5min.filter(ele => ele !== 0);
             var avg_variability = Math.floor(rmssd_array.reduce((a, b) => { return a += b }) / rmssd_array.length);
             var hr_array = this.props.sleep.hr_5min.filter(ele => ele !== 0);
@@ -88,7 +89,7 @@ class ReadinessViewModal extends Component {
     }
 
     getSleepRelatedTitle = () => {
-        if(this.props.sleep){
+        if(this.props.sleep && this.props.sleep !== 'x'){
             return (
                 <Toast className='mx-auto mw-100 p-4 mt-2'>
                     <ToastBody className='d-flex flex-column'>
@@ -164,7 +165,7 @@ class ReadinessViewModal extends Component {
                                           color={this.get_color(this.props.readiness.score_temperature)}
                                         />
                             <OuraProgress title='Resting Heart Rate'
-                                          subtext={`${this.props.sleep.hr_lowest} bpm`}
+                                          subtext={this.props.sleep !== 'x' ? `${this.props.sleep.hr_lowest} bpm` : ''}
                                           val={this.props.readiness.score_resting_hr}
                                           color={this.get_color(this.props.readiness.score_resting_hr)}
                                         />

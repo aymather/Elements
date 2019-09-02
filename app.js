@@ -52,7 +52,8 @@ if(process.env.NODE_ENV === 'production'){
     app.get('*', (req, res) => {
         console.log('Production request made');
         console.log(req.path);
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+        res.sendFile('./public/html/Success.html');
+        //res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
     })
 }
 

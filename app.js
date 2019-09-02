@@ -22,6 +22,14 @@ mongoose.connect(db, {useNewUrlParser: true})
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// Debugging
+function logPath(req, res, next){
+    console.log(req.path);
+    next();
+}
+
+app.use(logPath);
+
 // Routes directory
 app.use('/', require('./routes/user'));
 app.use('/', require('./routes/clients'));

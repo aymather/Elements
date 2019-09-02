@@ -33,7 +33,7 @@ function logPath(req, res, next){
 app.use(logPath);
 
 // Cors
-app.use(cors())
+app.use(cors());
 
 // Routes directory
 app.use('/', require('./routes/user'));
@@ -48,8 +48,10 @@ app.use('/ftp', express.static('public/uploads'), serveIndex('public/uploads', {
 
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static('client/build'));
-    
+
     app.get('*', (req, res) => {
+        console.log('Production request');
+        console.log(req.path);
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
     })
 }

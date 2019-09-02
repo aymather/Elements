@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const db = process.env.MONGO_URI;
 const PORT = process.env.PORT || 5000;
+const cors = require('cors');
+const serveIndex = require('serve-index');
 
 // Init app
 const app = express();
@@ -30,14 +32,19 @@ function logPath(req, res, next){
 
 app.use(logPath);
 
+// Cors
+app.use(cors())
+
 // Routes directory
 app.use('/', require('./routes/user'));
 app.use('/', require('./routes/clients'));
 app.use('/', require('./routes/retreats'));
 app.use('/', require('./routes/groups'));
 app.use('/', require('./routes/tokens'));
+app.use('/', require('./routes/uploads'));
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/ftp', express.static('public/uploads'), serveIndex('public/uploads', {'icons':true}))
 
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static('client/build'));

@@ -108,6 +108,16 @@ const DataEntry = new Schema({
     }
 })
 
+const FileSchema = new Schema({
+    upload_date: {
+        type: Object,
+        default: new moment()
+    },
+    filename: { type: String, required: true },
+    path: { type: String, required: true },
+    fullfile: { type: String, required: true }
+})
+
 const ClientSchema = new Schema({
     signup_date: {
         type: Object,
@@ -117,6 +127,7 @@ const ClientSchema = new Schema({
     lastname: { type: String, required: true },
     email: { type: String, required: true },
     gender: { type: String, required: true },
+    files: [FileSchema],
     birthday: { type: String, required: true },
     medications: { type: String },
     Metabolic_Type: { type: String },

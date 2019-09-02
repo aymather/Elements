@@ -80,6 +80,7 @@ router.get('/clients', authMiddleware, retreatMiddleware, (req, res) => {
                     medications: client.medications,
                     gender: client.gender,
                     birthday: client.birthday,
+                    files: client.files,
                     sleep: null,
                     activity: null,
                     readiness: null,
@@ -183,6 +184,7 @@ router.post('/new-client', authMiddleware, retreatMiddleware, (req, res) => {
                         medications: thisClient.medications,
                         gender: thisClient.gender,
                         birthday: thisClient.birthday,
+                        files: thisClient.files,
                         oura_api: {},
                         sleep: null,
                         activity: null,
@@ -326,6 +328,7 @@ router.post('/update-client-profile', authMiddleware, retreatMiddleware, (req, r
                         gender: thisClient.gender,
                         birthday: client.birthday,
                         oura_api: thisClient.oura_api,
+                        files: thisClient.files,
                         sleep: null,
                         activity: null,
                         readiness: null
@@ -340,5 +343,26 @@ router.post('/update-client-profile', authMiddleware, retreatMiddleware, (req, r
             return res.status(500).json({ msg: "Internal Server Error"})
         })
 })
+
+
+router.post('/remove-file', authMiddleware, retreatMiddleware, (req, res) => {
+    const { file_id, client_id } = req.body;
+
+    User.findOne()
+        .then(user => {
+            user.retreats.id(req.retreat_id).clients.id(client_id).files.id(file_id).remove();
+            user.save()
+                .then(() => {
+                    res.json({ file_id, client_id });
+                })
+                .catch(() => {
+                    res.status(500).json({ msg: "Had trouble saving document" });
+                })
+        })
+        .catch(() => {
+            res.status(500).json({ msg: "Error searching MongoDB Atlas"})
+        })
+})
+
 
 module.exports = router;

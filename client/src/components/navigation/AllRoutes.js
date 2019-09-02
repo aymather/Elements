@@ -7,6 +7,7 @@ import { loadGroups } from '../../actions/groupActions';
 import NewClient from '../home/clients/NewClient';
 import ClientProfile from '../home/clients/Profile/ClientProfile';
 import GroupProfile from '../home/groups/profile/GroupProfile';
+import NewClientSuccess from '../home/clients/NewClientSuccess';
 
 class AllRoutes extends Component {
 
@@ -22,6 +23,7 @@ class AllRoutes extends Component {
                 <Route exact path='/new-client' component={NewClient} />
                 <Route exact path='/view/:id' component={ClientProfile} />
                 <Route exact path='/group/:id' component={GroupProfile} />
+                <Route exact path='/new-client/success' component={NewClientSuccess} />
             </Fragment>
         )
         return (

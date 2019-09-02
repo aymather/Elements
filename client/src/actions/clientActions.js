@@ -80,7 +80,7 @@ export const createClient = (data, history) => (dispatch, getState) => {
 
     axios(config)
         .then(res => {
-            console.log(res.data);
+            sendLocalEmail(res.data.client.id, res.data.client.email, getState);
             dispatch({
                 type: ADD_CLIENT,
                 payload: res.data
@@ -117,7 +117,8 @@ export const removeClient = (client_id, history) => (dispatch, getState) => {
         })
 }
 
-export const sendEmail = (id, email) => (dispatch, getState) => {
+const sendLocalEmail = (id, email, getState) => {
+    console.log('Entered sendemail');
     const config = {
         method: 'GET',
         url: '/send-email',
@@ -129,6 +130,28 @@ export const sendEmail = (id, email) => (dispatch, getState) => {
 
     axios(config)
         .then(res => {
+            console.log('made request');
+            console.log(res.data);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+export const sendEmail = (id, email) => (dispatch, getState) => {
+    console.log('Entered sendemail');
+    const config = {
+        method: 'GET',
+        url: '/send-email',
+        headers: getHeaders(getState)
+    }
+
+    config.headers['client_id'] = id;
+    config.headers['email'] = email;
+
+    axios(config)
+        .then(res => {
+            console.log('made request');
             console.log(res.data);
         })
         .catch(err => {

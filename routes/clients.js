@@ -12,6 +12,7 @@ const sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 const path = require('path');
 const ouraConfig = require('../config/oura');
 const get_data = require('../public/js/get_data');
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Build options object for authentication
 let options = {
@@ -33,28 +34,32 @@ router.get(redirect_path, (req, res) => {
             const { accessToken, refreshToken } = data;
             const { retreat_id, client_id, token } = JSON.parse(req.query.state);
 
-            // Verify token
-            const jwt_user = jwt.verify(token, config.get('jwtSecret'));
-            
-            // Place access/refresh token into client's profile
-            User.findById(jwt_user.id)
-                .then(user => {
-                    user.retreats.id(retreat_id).clients.id(client_id).oura_api.oura_access_token = accessToken;
-                    user.retreats.id(retreat_id).clients.id(client_id).oura_api.oura_refresh_token = refreshToken;
+            try {
+                // Verify token
+                const jwt_user = jwt.verify(token, JWT_SECRET);
+                
+                // Place access/refresh token into client's profile
+                User.findById(jwt_user.id)
+                    .then(user => {
+                        user.retreats.id(retreat_id).clients.id(client_id).oura_api.oura_access_token = accessToken;
+                        user.retreats.id(retreat_id).clients.id(client_id).oura_api.oura_refresh_token = refreshToken;
 
-                    user.save()
-                        .then(() => {
-                            return res.sendFile(path.resolve(__dirname, '../public', 'docs', 'Success.html'));
-                        })
-                        .catch(e => {
-                            console.log(e);
-                            return res.sendFile(path.resolve(__dirname, '../public', 'docs', 'Error.html'));
-                        });
+                        user.save()
+                            .then(() => {
+                                return res.sendFile(path.resolve(__dirname, '../public', 'html', 'Success.html'));
+                            })
+                            .catch(e => {
+                                console.log(e);
+                                return res.sendFile(path.resolve(__dirname, '../public', 'html', 'Error.html'));
+                            });
 
-                })
-                .catch(() => {
-                    return res.status(400).json({ msg: "Bad request."});
-                })
+                    })
+                    .catch(() => {
+                        return res.status(400).json({ msg: "Bad request."});
+                    })
+            } catch(e) {
+                res.status(400).json({ msg: "Error validating JWT token" });
+            }
 
         })
         .catch(err => {

@@ -258,7 +258,7 @@ router.get('/send-email', authMiddleware, retreatMiddleware, (req, res) => {
 
     const html = `<h1 style='display: inline-block'>Click the link </h1><a href=${auth_uri}>here.</a>`;
     const from_email = new grid.Email('test@elementsretreat.com');
-    const to_email = new grid.Email('aymather@gmail.com');
+    const to_email = new grid.Email(email);
     const subject = 'Authenticate with Elements';
     const content = new grid.Content('text/html', html);
     const mail = new grid.Mail(from_email, subject, to_email, content);

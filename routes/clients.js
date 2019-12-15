@@ -268,6 +268,7 @@ router.get('/send-email', authMiddleware, retreatMiddleware, (req, res) => {
         path: '/v3/mail/send',
         body: mail.toJSON(),
     });
+    
     sg.API(request, (err, response) => {
         console.log(response.statusCode);
         console.log(response.body);
